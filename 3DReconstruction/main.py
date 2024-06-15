@@ -7,6 +7,7 @@ from trinagulate import Triangulate
 import matplotlib.pyplot as plt
 from RemoveOutliers import ROL
 
+
 rol = ROL()
 img, calib = loadfountainP11()
 
