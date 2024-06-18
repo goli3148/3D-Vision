@@ -40,7 +40,7 @@ class Triangulate:
             X.append(new_point)
 
         X = np.array(X)
-        return X
+        return X        
     
 
 
