@@ -8,8 +8,8 @@ class FeatureMatching:
         self.img2 = img1
         self.pts1 = None
         self.pts2 = None
-        self.show = show
-    
+        self.show = show        
+
     def BruteForceMatchingORB(self):
         # Initiate ORB detector
         orb = cv.ORB_create()

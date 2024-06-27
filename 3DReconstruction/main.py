@@ -11,8 +11,8 @@ from RemoveOutliers import ROL
 import numpy as np
 
 rol = ROL()
+
 img, calib = loadGustavIIAdolf()
-R, t = np.eye(3), np.zeros(shape=(3,))
 
 points_3D = np.ones(shape=(1,3))
 colors    = np.ones(shape=(1,3))
@@ -25,7 +25,7 @@ INDEX_COLORS = [
     [0, 0, 1]
 ]
 
-for i in range(0,2):
+for i in range(5,6):
 
     pts1, pts2 = FeatureMatching(img[i], img[i+1], show=False).BruteForceMatchingSIFT()
 
@@ -35,8 +35,7 @@ for i in range(0,2):
     c1, c2 = calib[i], calib[i+1]
     
     E, mask = FEMatrices(c1, c2, pts1, pts2).opencvE()
-
-    P1, P2, R, t = PoseMatrix(c1, c2, E, pts1, pts2, R, t).opencv()
+    P1, P2 = PoseMatrix(c1, c2, E, pts1, pts2).opencv()
 
     new_3d_point = Triangulate(P1, P2, pts1, pts2).opencv()
     print(np.sum(new_3d_point))
