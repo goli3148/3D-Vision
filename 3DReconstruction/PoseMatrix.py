@@ -14,9 +14,10 @@ class PoseMatrix:
     def opencv(self):
         _, R_new, t_new, _ = cv.recoverPose(self.E, self.pts1, self.pts2, self.K1)
         t_new = t_new.reshape(-1,)
+        t_new = t_new / np.linalg.norm(t_new)
         R_new = self.R @ R_new
         t_new = self.R @ t_new + self.t
-        
+
         self.P1 = self.K1 @ np.hstack((self.R, self.t.reshape(-1, 1)))
         self.P2 = self.K2 @ np.hstack((R_new, t_new.reshape(-1, 1)))
 
@@ -36,6 +37,10 @@ class PoseMatrix:
                 # self.P2 = self.K2 @ np.hstack((R_new, t_new.reshape(-1, 1)))
                 if np.linalg.det(R_new) == -1.:
                     R_new *= -1
+                
+                print(t_new)
+                t_new = t_new / np.linalg.norm(t_new)
+                print(t_new)
                 R_p = self.R @ R_new
                 t_p = self.t + self.R @ t_new
                 self.P1 = self.K1 @ np.hstack((self.R, self.t.reshape(-1, 1)))

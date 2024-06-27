@@ -17,11 +17,11 @@ class FEMatrices:
     def opencvE(self):
         self.E, mask = cv.findEssentialMat(self.pts1, self.pts2, self.k1, method=cv.FM_RANSAC)
         self.E /= self.E[2, 2]
-        return self.E
+        return self.E, mask
 
     def manualE(self):
-        if not self.F:
-            self.opencvE()
+        self.opencvF()
+        print(self.F)
         self.E = self.k2.T @ self.F @ self.k1
         self.E /= self.E[2, 2]
         return self.E
@@ -29,18 +29,21 @@ class FEMatrices:
 
 
 def __test__():
-    from data import loadGustavIIAdolf
+    from data import loadGustavIIAdolf, loaddin
     from featureMatching import FeatureMatching
+    from P2M import P2M
 
-    img,calib = loadGustavIIAdolf()
-    img1 = img[0]
-    img2 = img[1]
+    img,calib = loaddin()
+    i = 6
+    img1 = img[i]
+    img2 = img[i+1]
 
     pts1, pts2 = FeatureMatching(img1, img2, show=False).BruteForceMatchingSIFT()
+    c1, c2 = P2M(calib[i]).decompositionMethod(), P2M(calib[i+1]).decompositionMethod()
 
-    fem = FEMatrices(calib[0], calib[1], pts1, pts2)
-    fem.opencvF()
-    print(fem.F)
+    fem = FEMatrices(c1, c2, pts1, pts2)
+    # fem.opencvF()
+    # print(fem.F)
 
     fem.opencvE()
     print(fem.E)

@@ -40,9 +40,8 @@ class Triangulate:
             X.append(new_point)
 
         X = np.array(X)
-        return X        
-    
-
+        
+        return X
 
 def __test__():
     from data import loaddin
